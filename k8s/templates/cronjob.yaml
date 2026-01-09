@@ -1,0 +1,66 @@
+{{- range $index, $value := .Values.names }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cert-{{ $value }}
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  schedule: "0 8 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          # we want the cronjob pod to schedule on the same node as nginx
+          # for pvc availability
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                    - cert-nginx
+                topologyKey: kubernetes.io/hostname
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          containers:
+          - name: certcheck
+            image: ssl-test:latest
+            volumeMounts:
+            - name: cert-storage
+              mountPath: /app
+            envFrom:
+            - secretRef:
+                name: {{ $.Values.gitlab.secret }} #name of the secret containing the access to gitlab
+            - secretRef:
+                name: pagerduty
+            imagePullPolicy: Always
+            env:
+            - name: gitlaburl
+              value: "{{ $.Values.gitlab.url }}"
+            - name: gitlabprojectid
+              value: "{{ $.Values.gitlab.projectId }}"
+            - name: gitlabfilepath
+              value: "{{ $value }}.json"
+            - name: gitlabref
+              value: "{{ $.Values.gitlab.ref }}"
+            - name: verbose
+              value: "true"
+            - name: timeout
+              value: "{{ $.Values.app.timeout }}"
+            - name: split
+              value: "{{ $.Values.app.split }}"
+            - name: outputfile
+              value: "/app/{{ . }}"
+            - name: alertdays
+              value: "{{ $.Values.app.alertDays }}"
+          restartPolicy: OnFailure
+          volumes:
+          - name: cert-storage
+            persistentVolumeClaim:
+              claimName: cert-data
+---
+{{- end }}

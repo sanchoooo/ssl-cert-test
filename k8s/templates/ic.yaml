@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+    nginx.ingress.kubernetes.io/websocket-services-timeout: "3600"
+    nginx.ingress.kubernetes.io/websocket-timeout: "3600"
+  labels:
+  name: "cert.{{ .Values.environment_url }}"
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: internal
+  rules:
+  - host: "cert.{{ .Values.environment_url }}"
+    http:
+      paths:
+      - backend:
+          service:
+            name:  {{ include "app.fullname.nginx" . }}
+            port:
+              number: {{ .Values.nginx.port }}
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - "cert.{{ .Values.environment_url }}"
+    secretName:  cert-external

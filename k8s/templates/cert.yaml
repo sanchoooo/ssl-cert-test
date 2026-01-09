@@ -1,0 +1,28 @@
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-external
+  namespace: {{ .Release.Namespace }}
+spec:
+  commonName: cert.{{ .Values.environment_url }}
+  dnsNames:
+    - cert.{{ .Values.environment_url }}
+  duration: 2160h
+  renewBefore: 168h
+  subject:
+    organizations:
+      - 'AC Ventures'
+    countries:
+      - 'US'
+    localities:
+      - 'Tucson'
+    provinces:
+      - 'Arizona'
+  issuerRef:
+    group: jetstack.io
+    kind: VenafiClusterIssuer
+    name: {{ .Values.environment_url }}
+  privateKey:
+    rotationPolicy: Always
+  secretName: cert-external

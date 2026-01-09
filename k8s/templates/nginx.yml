@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-nginx
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "app.labels.nginx" . | nindent 4 }}
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1 #Can only have 1 replica
+  revisionHistoryLimit: {{ default 5 .Values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels.nginx" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print .Template.BasePath "/nginx-cm.yml") . | sha256sum }}
+        zfg-ca-certificates: inject
+      labels:
+        {{- include "app.selectorLabels.nginx" . | nindent 8 }}
+    spec:
+      affinity:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: nginx
+        image: "{{.Values.nginx.image}}:latest"
+        imagePullPolicy: Always
+        ports:
+          - name: nginx
+            containerPort: {{ .Values.nginx.port }}
+            protocol: TCP
+        volumeMounts:
+        - name: nginx
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        - name: cert-storage
+          mountPath: /data
+      volumes:
+      - name: cert-storage
+        persistentVolumeClaim:
+          claimName: cert-data
+      - name: cache-volume
+        emptyDir:
+          sizeLimit: 500Mi
+      - name: nginx
+        configMap:
+          name: nginx
+

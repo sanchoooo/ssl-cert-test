@@ -1,0 +1,7 @@
+scripts/
+tmp/
+justfile
+secrets
+vars/
+.gitignore
+.helmignore

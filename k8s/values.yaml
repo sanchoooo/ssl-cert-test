@@ -1,0 +1,60 @@
+nginx:
+  replicas: 1 # only 1 replica for the pvc mapping
+  resources:
+    requests:
+      memory: "25Mi"
+      cpu: "1m"
+    limits:
+      memory: "1Gi"
+      cpu: "1"
+    securityContext:
+      allowPrivilegeEscalation: false
+    podSecurityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsgroup: 1001
+      # runAsNonRoot: true
+  image: 078570713816.dkr.ecr.us-gov-west-1.amazonaws.com/zfg/base/nginx-plus/alpine
+  port: 8080
+  allowLists:
+    global:
+    - "38.99.100.15/32"   # Gov VPN 2
+    - "50.216.210.130/32" # Gov VPN 1A
+    - "50.216.210.133/32" # Gov VPN 1B
+    - "50.221.21.7/32"    # Gov Denver VPN1
+    - "63.233.134.150/32" # Gov Denver VPN2
+    - "38.99.100.7/32"    # SJ55 vpn 1
+    - "38.99.100.66/32"   # SJ55 vpn 2
+    - "10.0.0.0/8"        # mil vpn
+    - "172.16.0.0/12"     # gov vpn
+    - "15.200.59.78/32"   # ZfG Dev Int
+    - "52.61.20.120/32"   # ZfG Dev Int
+    - "56.137.115.21/32"  # ZfG Dev Int
+    - "56.137.60.187/32"  # ZfG Dev Int
+    - "56.137.83.103/32"  # ZfG Prod Int
+    - "56.137.98.239/32"  # ZfG Prod Int
+    - "15.205.3.164/32"   # ZfG Prod Int
+    - "56.136.30.28/32"   # ZfG Prod Int
+    backend:
+    - "52.61.80.143/32"   # ZfG VPC NAT Gateway
+    - "52.61.233.104/32"  # ZP AWS NAT
+    - "15.200.52.250/32"  # ZP AWS NAT
+    - "15.200.100.160/32" # ZP AWS NAT
+    - "3.31.48.0/25"      # AWS US-GOV-WEST-1 PUBLIC EIP RANGE
+    - "18.254.137.128/25" # AWS US-GOV-EAST-1 PUBLIC EIP RANGE
+    commercial:
+    - "38.99.100.7/32"    # SAN JOSE VPN
+    - "63.233.134.131/32" # DENVER VPN
+
+
+gitlab:
+  url: "https://gitlab.tools.zoomgov.com"
+  projectId: "940"
+  ref: "main"
+  secret: "gitlab.zoomgov.com"
+app:
+  alertDays: "5" # Number of days or less remainig where PagerDuty gets alerted. Defaulted to 5
+ # number of urls to test per thread. if you have 200 urls, this will spin 10 threads
+ # if you have 2000 urls, this will spin 100 threads
+  split: 20
+  timeout: 2 #seconds per https request to wait
