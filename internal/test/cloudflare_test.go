@@ -1,4 +1,4 @@
-package config
+package test
 
 import (
 	"encoding/json"
@@ -44,7 +44,7 @@ func TestFetchDomainsFromCloudflare(t *testing.T) {
 				},
 			},
 		}
-		
+
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(response)
 	}))

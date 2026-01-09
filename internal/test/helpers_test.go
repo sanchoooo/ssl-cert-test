@@ -1,4 +1,4 @@
-package config
+package test
 
 import (
 	"reflect"
@@ -7,10 +7,10 @@ import (
 
 func TestParsePorts(t *testing.T) {
 	tests := []struct {
-		name       string
-		input      string
-		want       []int
-		expectErr  bool
+		name      string
+		input     string
+		want      []int
+		expectErr bool
 	}{
 		{
 			name:      "Valid single port",

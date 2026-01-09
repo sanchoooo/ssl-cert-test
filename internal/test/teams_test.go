@@ -1,4 +1,4 @@
-package config
+package test
 
 import (
 	"encoding/json"
@@ -65,7 +65,7 @@ func TestSendTeamsAlert(t *testing.T) {
 	// 4. Assertions
 	assert.NoError(t, err)
 	assert.Equal(t, 1, requestCount)
-	
+
 	// Check Top Level Fields
 	assert.Equal(t, "MessageCard", receivedPayload.Type)
 	assert.Equal(t, "d70000", receivedPayload.ThemeColor)
@@ -78,7 +78,7 @@ func TestSendTeamsAlert(t *testing.T) {
 	sec1 := receivedPayload.Sections[0]
 	assert.Contains(t, sec1.ActivityTitle, "expire.teams.com")
 	assert.Contains(t, sec1.ActivitySubtitle, "Expiring in 3 days")
-	
+
 	// Verify Facts in Section 1
 	assert.Equal(t, "Common Name", sec1.Facts[0].Name)
 	assert.Equal(t, "expire.teams.com", sec1.Facts[0].Value)

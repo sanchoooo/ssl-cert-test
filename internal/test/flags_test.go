@@ -1,4 +1,4 @@
-package config
+package test
 
 import (
 	"testing"
@@ -18,12 +18,12 @@ func TestLoad(t *testing.T) {
 			name: "Default values",
 			args: []string{},
 			want: AppConfig{
-				Verbose:      true,            // Default is true
-				Timeout:      5 * time.Second, // Default is 5s
-				ConfigType:   "gitlab",        // Default is gitlab
-				Output:       "/tmp/data",
-				Split:        30,
-				AlertDays:    5,
+				Verbose:    true,            // Default is true
+				Timeout:    5 * time.Second, // Default is 5s
+				ConfigType: "gitlab",        // Default is gitlab
+				Output:     "/tmp/data",
+				Split:      30,
+				AlertDays:  5,
 			},
 		},
 		{
@@ -83,8 +83,8 @@ func TestLoad(t *testing.T) {
 
 			// 3. Assertions
 			assert.NoError(t, err)
-			
-			// We compare specific fields because zero-values in 'want' 
+
+			// We compare specific fields because zero-values in 'want'
 			// might match fields we aren't testing, making DeepEqual tricky.
 			// Using testify/assert makes this readable.
 			assert.Equal(t, tt.want.Timeout, got.Timeout, "Timeout mismatch")

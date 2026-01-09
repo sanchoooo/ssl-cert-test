@@ -1,4 +1,4 @@
-package config
+package test
 
 import (
 	"encoding/json"
@@ -67,7 +67,7 @@ func TestSendSlackAlert(t *testing.T) {
 	// 4. Assertions
 	assert.NoError(t, err)
 	assert.Equal(t, 1, requestCount, "Should have sent exactly 1 HTTP request")
-	
+
 	// Verify the summary text counts correctly (1 expiring + 1 error = 2 issues)
 	assert.Contains(t, receivedPayload.Text, "Found 2 SSL Certificates", "Summary text should match issue count")
 	assert.Len(t, receivedPayload.Attachments, 2, "Should have 2 attachments (expire.com and error.com)")

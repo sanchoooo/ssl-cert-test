@@ -1,4 +1,4 @@
-package config
+package alerting
 
 import (
 	"bytes"
@@ -47,11 +47,11 @@ func SendTeamsAlert(webhookURL string, alertDays int, data []DomainValidity) err
 
 	// Build the Card
 	summary := fmt.Sprintf("⚠️ Found %d SSL Certificates expiring within %d days", len(expiring), alertDays)
-	
+
 	var sections []TeamsSection
 	for _, r := range expiring {
 		title := fmt.Sprintf("%s (Port: %d)", r.Domain, r.Port)
-		
+
 		status := fmt.Sprintf("Expiring in %d days", r.DaysUntilExpiry)
 		if r.Error != "" {
 			status = fmt.Sprintf("Error: %s", r.Error)

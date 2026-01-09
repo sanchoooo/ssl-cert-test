@@ -1,4 +1,4 @@
-package config
+package test
 
 import (
 	"encoding/json"
@@ -67,7 +67,7 @@ func TestSendAlert(t *testing.T) {
 	// 5. Assertions
 	assert.NoError(t, err)
 	assert.Equal(t, 1, requestCount, "Should have sent exactly 1 alert (for critical.com)")
-	
+
 	// Verify Payload Content
 	assert.Equal(t, "fake-integration-key", receivedEvent.RoutingKey)
 	assert.Equal(t, "trigger", receivedEvent.EventAction)

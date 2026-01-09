@@ -43,7 +43,8 @@ tidy:
       -v "${PWD}:/app" \
       -w /app/src \
       {{builder_image}} \
-      go mod tidy
+      go mod tidy internal
+      
 
 get:
     docker run --rm -it \

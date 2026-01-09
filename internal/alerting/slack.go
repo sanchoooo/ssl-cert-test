@@ -1,4 +1,4 @@
-package config
+package alerting
 
 import (
 	"bytes"
@@ -41,13 +41,13 @@ func SendSlackAlert(webhookURL string, alertDays int, data []DomainValidity) err
 
 	// Build the message
 	messageText := fmt.Sprintf("⚠️ Found %d SSL Certificates expiring within %d days (or errors)", len(expiring), alertDays)
-	
+
 	var attachments []Attachment
 
 	for _, r := range expiring {
 		color := "warning"
 		status := fmt.Sprintf("Expiring in %d days", r.DaysUntilExpiry)
-		
+
 		if r.Error != "" {
 			color = "danger"
 			status = fmt.Sprintf("Error: %s", r.Error)
