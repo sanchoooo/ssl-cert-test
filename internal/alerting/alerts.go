@@ -69,6 +69,9 @@ func GetAlertProviders(cfg *config.AppConfig) []AlertProvider {
 	if cfg.TeamsWebhook != "" {
 		providers = append(providers, &TeamsAlert{WebhookURL: cfg.TeamsWebhook})
 	}
+	if cfg.ZoomWebhook != "" {
+		providers = append(providers, &ZoomAlert{WebhookURL: cfg.ZoomWebhook})
+	}
 
 	return providers
 }

@@ -41,6 +41,7 @@ type AppConfig struct {
 	PagerDutyKey string
 	SlackWebhook string
 	TeamsWebhook string
+	ZoomWebhook  string
 	AlertDays    int
 
 	// Gitlab
@@ -86,6 +87,7 @@ func Load(args []string) (*AppConfig, error) {
 	fs.StringVar(&cfg.PagerDutyKey, "pagerdutykey", "", "PagerDuty Integration Key")
 	fs.StringVar(&cfg.SlackWebhook, "slackwebhook", "", "Slack Webhook URL")
 	fs.StringVar(&cfg.TeamsWebhook, "teamswebhook", "", "MS Teams Webhook URL")
+	fs.StringVar(&cfg.ZoomWebhook, "zoomwebhook", "", "Zoom Webhook URL")
 	fs.IntVar(&cfg.AlertDays, "alertdays", 5, "Number of days remaining to trigger alert")
 
 	fs.StringVar(&cfg.GitlabToken, "gitlabtoken", "", "Gitlab Token")

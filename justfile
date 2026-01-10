@@ -36,7 +36,7 @@ test:
     -v "${PWD}:/app" \
     -w /app/src \
     {{builder_image}} \
-    go test ./config/... -v
+    go test ... -v
 
 tidy:
     docker run --rm -it \
