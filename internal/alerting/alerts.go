@@ -2,11 +2,12 @@ package alerting
 
 import (
 	"fmt"
+	"github.com/andre/ssl-cert-test/internal/config"
 )
 
 // AlertProvider is the common interface for all notification channels
 type AlertProvider interface {
-	Send(results []DomainValidity, alertDays int) error
+	Send(results []config.DomainValidity, alertDays int) error
 	Name() string
 }
 
@@ -19,7 +20,7 @@ type PagerDutyAlert struct {
 
 func (p *PagerDutyAlert) Name() string { return "PagerDuty" }
 
-func (p *PagerDutyAlert) Send(results []DomainValidity, alertDays int) error {
+func (p *PagerDutyAlert) Send(results []config.DomainValidity, alertDays int) error {
 	if p.IntegrationKey == "" {
 		return nil
 	}
@@ -33,7 +34,7 @@ type SlackAlert struct {
 
 func (s *SlackAlert) Name() string { return "Slack" }
 
-func (s *SlackAlert) Send(results []DomainValidity, alertDays int) error {
+func (s *SlackAlert) Send(results []config.DomainValidity, alertDays int) error {
 	if s.WebhookURL == "" {
 		return nil
 	}
@@ -47,7 +48,7 @@ type TeamsAlert struct {
 
 func (t *TeamsAlert) Name() string { return "Teams" }
 
-func (t *TeamsAlert) Send(results []DomainValidity, alertDays int) error {
+func (t *TeamsAlert) Send(results []config.DomainValidity, alertDays int) error {
 	if t.WebhookURL == "" {
 		return nil
 	}

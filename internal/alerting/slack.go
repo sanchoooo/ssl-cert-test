@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/andre/ssl-cert-test/internal/config"
 	"net/http"
 )
 
@@ -21,12 +22,12 @@ type Attachment struct {
 }
 
 // SendSlackAlert sends a summary of expiring certificates to Slack
-func SendSlackAlert(webhookURL string, alertDays int, data []DomainValidity) error {
+func SendSlackAlert(webhookURL string, alertDays int, data []config.DomainValidity) error {
 	if webhookURL == "" {
 		return nil
 	}
 
-	var expiring []DomainValidity
+	var expiring []config.DomainValidity
 	for _, r := range data {
 		// If error exists or days until expiry is less than threshold
 		if r.Error != "" || r.DaysUntilExpiry <= alertDays {

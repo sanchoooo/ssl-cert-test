@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-
+	"github.com/andre/ssl-cert-test/internal/config"
 	"gitlab.com/gitlab-org/api/client-go"
 )
 

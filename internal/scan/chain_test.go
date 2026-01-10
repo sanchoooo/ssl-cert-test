@@ -7,6 +7,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
+	"github.com/andre/ssl-cert-test/internal/config"
 	"math/big"
 	"net"
 	"net/http"
@@ -103,7 +104,7 @@ func TestGetSSLValidity_ChainValidation(t *testing.T) {
 			port, _ := strconv.Atoi(u.Port())
 
 			// Updated to pass Context
-			details, err := getSSLValidity(context.Background(), host, port)
+			details, err := GetSSLValidity(context.Background(), host, port)
 
 			assert.NoError(t, err)
 

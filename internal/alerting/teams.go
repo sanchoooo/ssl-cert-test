@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/andre/ssl-cert-test/internal/config"
 	"net/http"
 )
 
@@ -29,12 +30,12 @@ type TeamsFact struct {
 }
 
 // SendTeamsAlert sends a formatted card to MS Teams
-func SendTeamsAlert(webhookURL string, alertDays int, data []DomainValidity) error {
+func SendTeamsAlert(webhookURL string, alertDays int, data []config.DomainValidity) error {
 	if webhookURL == "" {
 		return nil
 	}
 
-	var expiring []DomainValidity
+	var expiring []config.DomainValidity
 	for _, r := range data {
 		if r.Error != "" || r.DaysUntilExpiry <= alertDays {
 			expiring = append(expiring, r)

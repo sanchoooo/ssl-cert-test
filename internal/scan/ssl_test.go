@@ -3,13 +3,13 @@ package test
 import (
 	"context" // <--- Added
 	"crypto/tls"
+	"github.com/andre/ssl-cert-test/internal/config"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strconv"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestGetSSLValidity_TLSVersions(t *testing.T) {
@@ -48,7 +48,7 @@ func TestGetSSLValidity_TLSVersions(t *testing.T) {
 			port, _ := strconv.Atoi(u.Port())
 
 			// Updated call with Context
-			details, err := getSSLValidity(context.Background(), host, port)
+			details, err := GetSSLValidity(context.Background(), host, port)
 
 			assert.NoError(t, err)
 			assert.Equal(t, tt.wantVersion, details.TLSVersion)

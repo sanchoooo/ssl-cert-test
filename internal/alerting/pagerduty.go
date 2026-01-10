@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/andre/ssl-cert-test/internal/config"
 	"log"
 	"net/http"
 )
@@ -50,7 +51,7 @@ type PagerDutyEventImage struct {
 	Alt  string `json:"alt,omitempty"`
 }
 
-func SendAlert(integrationKey string, alertDays int, data []DomainValidity) error {
+func SendAlert(integrationKey string, alertDays int, data []config.DomainValidity) error {
 
 	if integrationKey == "" {
 		log.Println("pagerdutykey environment variable not set")

@@ -6,19 +6,19 @@ WORKDIR /app
 
 # --- OPTIMIZATION START ---
 # 1. Copy ONLY the dependency files first. 
-COPY src/go.mod src/go.sum ./
+COPY go.mod go.sum ./
 
 # 2. Download dependencies.
 #    Docker will CACHE this step. It will NOT run again unless go.mod or go.sum changes.
 RUN go mod download
 
 # 3. NOW copy the actual source code.
-COPY src/ .
+COPY . .
 # --- OPTIMIZATION END ---
 
 # 4. Build the binary
 #    (Removed 'go mod tidy' from here - see note below)
-RUN CGO_ENABLED=0 GOOS=linux go build -o /executable
+RUN CGO_ENABLED=0 GOOS=linux go build -o /executable ./cmd/ssl_cert_checker
 
 # --- FINAL STAGE ---
 FROM scratch

@@ -3,10 +3,10 @@ package discovery
 import (
 	"context"
 	"fmt"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime" // <--- Added Import
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/andre/ssl-cert-test/internal/config"
 )
 
 // AzurePagingClient interface allows us to mock the paginator in tests

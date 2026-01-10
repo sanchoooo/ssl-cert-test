@@ -12,7 +12,6 @@ import (
 	"github.com/andre/ssl-cert-test/internal/config"
 	"github.com/andre/ssl-cert-test/internal/discovery"
 	"github.com/andre/ssl-cert-test/internal/scan"
-	"github.com/andre/ssl-cert-test/internal/test"
 )
 
 func main() {

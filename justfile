@@ -41,9 +41,9 @@ test:
 tidy:
     docker run --rm -it \
       -v "${PWD}:/app" \
-      -w /app/src \
+      -w /app/ \
       {{builder_image}} \
-      go mod tidy internal
+      go mod tidy 
       
 
 get:
@@ -51,4 +51,21 @@ get:
       -v "${PWD}:/app" \
       -w /app/src \
       {{builder_image}} \
-      go get github.com/Azure/azure-sdk-for-go/sdk/azidentity github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns github.com/Azure/azure-sdk-for-go/sdk/azcore
+      go get \
+      github.com/3th1nk/cidr  \
+      github.com/peterbourgon/ff/v3 \
+      github.com/aws/aws-sdk-go/aws\
+      github.com/aws/aws-sdk-go/aws/session\
+      github.com/aws/aws-sdk-go/service/route53\
+      github.com/cloudflare/cloudflare-go\
+      gitlab.com/gitlab-org/api/client-go\
+
+clean:
+    docker run --rm -it \
+      -v "${PWD}:/app" \
+      -w /app/src \
+      {{builder_image}} \
+      go clean -modcache
+
+
+

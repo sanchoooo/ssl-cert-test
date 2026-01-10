@@ -2,12 +2,12 @@ package test
 
 import (
 	"encoding/json"
+	"github.com/andre/ssl-cert-test/internal/config"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestSendSlackAlert(t *testing.T) {

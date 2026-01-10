@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/andre/ssl-cert-test/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 

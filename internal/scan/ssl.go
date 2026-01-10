@@ -10,6 +10,8 @@ import (
 	"net"
 	"sync"
 	"time"
+
+	"github.com/andre/ssl-cert-test/internal/config"
 )
 
 // CertDetails holds the raw certificate data
@@ -68,8 +70,8 @@ func tlsVersionToString(ver uint16) string {
 	}
 }
 
-// getSSLValidity now takes a Context for timeout/cancellation
-func getSSLValidity(ctx context.Context, domain string, port int) (CertDetails, error) {
+// GetSSLValidity now takes a Context for timeout/cancellation
+func GetSSLValidity(ctx context.Context, domain string, port int) (CertDetails, error) {
 	var details CertDetails
 	address := fmt.Sprintf("%s:%d", domain, port)
 
@@ -151,7 +153,7 @@ func getSSLValidity(ctx context.Context, domain string, port int) (CertDetails, 
 }
 
 // ProcessDomains now accepts a parent Context and uses slog
-func ProcessDomains(ctx context.Context, domains []string, ports []int, timeout time.Duration, now time.Time, resultsChan chan<- DomainValidity, wg *sync.WaitGroup) {
+func ProcessDomains(ctx context.Context, domains []string, ports []int, timeout time.Duration, now time.Time, resultsChan chan<- config.DomainValidity, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	// Create a child logger for this batch if needed, or use default
@@ -165,10 +167,10 @@ func ProcessDomains(ctx context.Context, domains []string, ports []int, timeout 
 			reqCtx, cancel := context.WithTimeout(ctx, timeout)
 
 			// Call updated function
-			details, err := getSSLValidity(reqCtx, domain, port)
+			details, err := GetSSLValidity(reqCtx, domain, port)
 			cancel() // Clean up context immediately
 
-			result := DomainValidity{
+			result := config.DomainValidity{
 				Domain:        domain,
 				Port:          port,
 				Serial:        details.Serial,

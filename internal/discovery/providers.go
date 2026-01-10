@@ -2,6 +2,7 @@ package alerting
 
 import (
 	"fmt"
+	"github.com/andre/ssl-cert-test/internal/config"
 )
 
 // TargetProvider is the common interface for all discovery methods
