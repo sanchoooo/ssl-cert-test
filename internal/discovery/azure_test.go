@@ -1,12 +1,11 @@
-package test
+package discovery
 
 import (
 	"context"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
-	"github.com/andre/ssl-cert-test/internal/config"
-	"github.com/andre/ssl-cert-test/internal/discovery"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/stretchr/testify/assert"
 )
 
 // MockAzurePager implements AzurePagingClient

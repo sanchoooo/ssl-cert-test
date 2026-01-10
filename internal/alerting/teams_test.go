@@ -1,13 +1,14 @@
-package test
+package alerting
 
 import (
 	"encoding/json"
 	"github.com/andre/ssl-cert-test/internal/config"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSendTeamsAlert(t *testing.T) {
@@ -34,7 +35,7 @@ func TestSendTeamsAlert(t *testing.T) {
 
 	// 2. Define Test Data
 	now := time.Now()
-	testData := []DomainValidity{
+	testData := []config.DomainValidity{
 		{
 			Domain:          "expire.teams.com",
 			Port:            443,

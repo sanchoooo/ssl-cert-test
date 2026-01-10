@@ -68,7 +68,7 @@ func loadTargets(cfg *config.AppConfig) (config.Config, error) {
 	}
 
 	// Use Provider Factory
-	provider, err := config.GetProvider(cfg)
+	provider, err := discovery.GetProvider(cfg)
 	if err != nil {
 		return targetConf, err
 	}
@@ -115,7 +115,7 @@ func runScan(cfg *config.AppConfig, targets config.Config) []config.DomainValidi
 		}
 
 		wg.Add(1)
-		go config.ProcessDomains(
+		go scan.ProcessDomains(
 			ctx,
 			targets.Domains[i:end],
 			targets.Ports,
@@ -140,7 +140,7 @@ func runScan(cfg *config.AppConfig, targets config.Config) []config.DomainValidi
 
 // processAlerts now iterates over the provider list
 func processAlerts(cfg *config.AppConfig, results []config.DomainValidity) {
-	providers := config.GetAlertProviders(cfg)
+	providers := alerting.GetAlertProviders(cfg)
 
 	for _, p := range providers {
 		slog.Info("sending alert", "provider", p.Name())

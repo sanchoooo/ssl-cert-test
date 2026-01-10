@@ -1,4 +1,4 @@
-package alerting
+package discovery
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 
 // TargetProvider is the common interface for all discovery methods
 type TargetProvider interface {
-	FetchTargets() (Config, error)
+	FetchTargets() (config.Config, error)
 }
 
 // -- Implementations --
@@ -17,8 +17,8 @@ type FileProvider struct {
 	Path string
 }
 
-func (p *FileProvider) FetchTargets() (Config, error) {
-	return LoadConfig(p.Path)
+func (p *FileProvider) FetchTargets() (config.Config, error) {
+	return config.LoadConfig(p.Path)
 }
 
 // 2. Route53 Provider
@@ -26,10 +26,10 @@ type Route53Provider struct {
 	HostedZoneID string
 }
 
-func (p *Route53Provider) FetchTargets() (Config, error) {
+func (p *Route53Provider) FetchTargets() (config.Config, error) {
 	domains, err := FetchDomainsFromRoute53(p.HostedZoneID)
 	// Return a Config struct with just the domains populated
-	return Config{Domains: domains}, err
+	return config.Config{Domains: domains}, err
 }
 
 // 3. Cloudflare Provider
@@ -38,9 +38,9 @@ type CloudflareProvider struct {
 	ZoneID string
 }
 
-func (p *CloudflareProvider) FetchTargets() (Config, error) {
+func (p *CloudflareProvider) FetchTargets() (config.Config, error) {
 	domains, err := FetchDomainsFromCloudflare(p.Token, p.ZoneID)
-	return Config{Domains: domains}, err
+	return config.Config{Domains: domains}, err
 }
 
 // 4. Azure Provider
@@ -48,9 +48,9 @@ type AzureProvider struct {
 	SubID, ResGroup, Zone, ClientID, ClientSecret, TenantID string
 }
 
-func (p *AzureProvider) FetchTargets() (Config, error) {
+func (p *AzureProvider) FetchTargets() (config.Config, error) {
 	domains, err := FetchDomainsFromAzure(p.SubID, p.ResGroup, p.Zone, p.ClientID, p.ClientSecret, p.TenantID)
-	return Config{Domains: domains}, err
+	return config.Config{Domains: domains}, err
 }
 
 // 5. GitLab Provider
@@ -58,7 +58,7 @@ type GitLabProvider struct {
 	Token, URL, ProjectID, FilePath, Ref string
 }
 
-func (p *GitLabProvider) FetchTargets() (Config, error) {
+func (p *GitLabProvider) FetchTargets() (config.Config, error) {
 	// We need to move the 'fetchGitLabConfig' logic we wrote in cert.go
 	// into a reusable function in this package, or implement it here.
 	// For now, assuming you move that helper logic to `gitlab.go` or similar:
@@ -68,7 +68,7 @@ func (p *GitLabProvider) FetchTargets() (Config, error) {
 // -- Factory --
 
 // GetProvider returns the correct provider based on configuration
-func GetProvider(cfg *AppConfig) (TargetProvider, error) {
+func GetProvider(cfg *config.AppConfig) (TargetProvider, error) {
 	switch cfg.ConfigType {
 	case "zone":
 		return &Route53Provider{HostedZoneID: cfg.HostedZoneID}, nil

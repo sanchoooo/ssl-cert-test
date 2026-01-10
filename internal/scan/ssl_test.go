@@ -1,15 +1,15 @@
-package test
+package scan
 
 import (
 	"context" // <--- Added
 	"crypto/tls"
-	"github.com/andre/ssl-cert-test/internal/config"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strconv"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetSSLValidity_TLSVersions(t *testing.T) {

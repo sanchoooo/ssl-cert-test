@@ -66,6 +66,9 @@ clean:
       -w /app/src \
       {{builder_image}} \
       go clean -modcache
-
-
-
+      
+sign:
+  git config --global user.signingkey 4C86C3BE2A5F2A50BFA4CF55975968D3C75F4CC5
+  git config --global commit.gpgsign true
+  git config --global tag.gpgSign true
+  git config --global user.name "Andre Koster"

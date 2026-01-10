@@ -9,8 +9,8 @@ import (
 )
 
 // FetchGitLabConfig retrieves and parses a JSON config file from a GitLab repository
-func FetchGitLabConfig(token, baseURL, projectID, filePath, ref string) (Config, error) {
-	var conf Config
+func FetchGitLabConfig(token, baseURL, projectID, filePath, ref string) (config.Config, error) {
+	var conf config.Config
 
 	// Initialize GitLab Client
 	gl, err := gitlab.NewClient(token, gitlab.WithBaseURL(baseURL))

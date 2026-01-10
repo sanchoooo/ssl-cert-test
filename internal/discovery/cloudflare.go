@@ -3,7 +3,6 @@ package discovery
 import (
 	"context"
 	"fmt"
-	"github.com/andre/ssl-cert-test/internal/config"
 	"github.com/cloudflare/cloudflare-go"
 )
 

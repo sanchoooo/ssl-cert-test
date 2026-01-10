@@ -1,7 +1,6 @@
 package alerting
 
 import (
-	"fmt"
 	"github.com/andre/ssl-cert-test/internal/config"
 )
 
@@ -58,7 +57,7 @@ func (t *TeamsAlert) Send(results []config.DomainValidity, alertDays int) error 
 // -- Factory --
 
 // GetAlertProviders returns a list of configured alert providers
-func GetAlertProviders(cfg *AppConfig) []AlertProvider {
+func GetAlertProviders(cfg *config.AppConfig) []AlertProvider {
 	var providers []AlertProvider
 
 	if cfg.PagerDutyKey != "" {

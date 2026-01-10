@@ -1,13 +1,12 @@
-package test
+package discovery
 
 import (
 	"encoding/json"
-	"github.com/andre/ssl-cert-test/internal/config"
-	"github.com/andre/ssl-cert-test/internal/discovery"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestFetchDomainsFromCloudflare(t *testing.T) {

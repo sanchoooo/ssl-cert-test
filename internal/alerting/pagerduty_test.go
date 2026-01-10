@@ -1,13 +1,13 @@
-package test
+package alerting
 
 import (
 	"encoding/json"
+	"github.com/andre/ssl-cert-test/internal/config"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
 
-	"github.com/andre/ssl-cert-test/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -46,7 +46,7 @@ func TestSendAlert(t *testing.T) {
 
 	// 3. Define Test Data
 	now := time.Now()
-	testData := []DomainValidity{
+	testData := []config.DomainValidity{
 		{
 			Domain:          "critical.com",
 			CommonName:      "critical.com",

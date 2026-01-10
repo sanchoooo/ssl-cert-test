@@ -1,4 +1,4 @@
-package test
+package scan
 
 import (
 	"context"
@@ -7,7 +7,6 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
-	"github.com/andre/ssl-cert-test/internal/config"
 	"math/big"
 	"net"
 	"net/http"
